@@ -1,0 +1,34 @@
+const require('mongoose');
+
+const UserSchema = mongoose.Schema({
+    firstname:{
+      type: String,
+      default: ''
+    },
+    lastname:{
+      type: String,
+      default: ''
+    },
+    email:{
+        type: String,
+        default: ''
+    },
+    username:{
+        type: String,
+        default: ''
+    },
+    password:{
+        type: String,
+        default: ''
+    }
+});
+
+UserSchema.methods.generateHash = function(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+UserSchema.methods.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+module.exports = mongoose.model('User', UserSchema);
