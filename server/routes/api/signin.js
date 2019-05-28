@@ -4,7 +4,7 @@ module.exports = (app) => {
   app.post('/api/account/signup', (req, res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
-    const email = req.body.email;
+    let email = req.body.email;
 	  const username = req.body.username;
 	  const password = req.body.password;
 
@@ -66,8 +66,17 @@ module.exports = (app) => {
     newUser.username = username;
     newUser.password = newUser.generateHash(password);
 
-
-
-
+    newUser.save((err, user) => {
+      if(err) {
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Signed up'
+      });
+    });
   });
 };
