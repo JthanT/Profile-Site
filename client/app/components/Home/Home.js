@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
+import { getFromStorage, setInStorage } from '../../utils/storage';
 
 class Home extends Component {
   constructor(props) {
@@ -7,13 +8,31 @@ class Home extends Component {
 
     this.state = {
       isLoading: true,
+      token: '',
       signUpError: '',
       signInError: ''
     }
   }
 
   componentDidMount() {
+    const token = getFromStorage('profile_app');
 
+    if(token){
+      fetch('/api/account/verify?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if(json.success) {
+            this.setState({
+              token: token,
+              isLoading: false,
+            });
+          } else {
+            this.setState({ isLoading: false });
+          }
+        });
+    } else {
+      this.setState({ isLoading: false });
+    }
   }
 
   newCounter() {
@@ -29,56 +48,32 @@ class Home extends Component {
       });
   }
 
-  incrementCounter(index) {
-    const id = this.state.counters[index]._id;
+  render() {
+    const {
+      isLoading,
+      token,
+    } = this.state;
 
-    fetch(`/api/counters/${id}/increment`, { method: 'PUT' })
-      .then(res => res.json())
-      .then(json => {
-        this._modifyCounter(index, json);
-      });
-  }
-
-  decrementCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}/decrement`, { method: 'PUT' })
-      .then(res => res.json())
-      .then(json => {
-        this._modifyCounter(index, json);
-      });
-  }
-
-  deleteCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}`, { method: 'DELETE' })
-      .then(_ => {
-        this._modifyCounter(index, null);
-      });
-  }
-
-  _modifyCounter(index, data) {
-    let prevData = this.state.counters;
-
-    if (data) {
-      prevData[index] = data;
-    } else {
-      prevData.splice(index, 1);
+    if(isLoading) {
+      return(
+        <div>
+          <p>Loading...</p>
+        </div>
+      );
     }
 
-    this.setState({
-      counters: prevData
-    });
-  }
+    if(!token) {
+      return(
+        <div>
+          <p>Sign In</p>
+          <p>Sign Up</p>
+        </div>
+      );
+    }
 
-  render() {
-    const isLoading = this.state;
-
-
-    return(
+    return (
       <div>
-
+        <p>Account</p>
       </div>
     );
   }
