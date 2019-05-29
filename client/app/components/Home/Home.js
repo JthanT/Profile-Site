@@ -6,25 +6,14 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      counters: []
-    };
-
-    this.newCounter = this.newCounter.bind(this);
-    this.incrementCounter = this.incrementCounter.bind(this);
-    this.decrementCounter = this.decrementCounter.bind(this);
-    this.deleteCounter = this.deleteCounter.bind(this);
-
-    this._modifyCounter = this._modifyCounter.bind(this);
+      isLoading: true,
+      signUpError: '',
+      signInError: ''
+    }
   }
 
   componentDidMount() {
-    fetch('/api/counters')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          counters: json
-        });
-      });
+
   }
 
   newCounter() {
@@ -84,23 +73,13 @@ class Home extends Component {
   }
 
   render() {
-    return (
-      <>
-        <p>Counters:</p>
+    const isLoading = this.state;
 
-        <ul>
-          { this.state.counters.map((counter, i) => (
-            <li key={i}>
-              <span>{counter.count} </span>
-              <button onClick={() => this.incrementCounter(i)}>+</button>
-              <button onClick={() => this.decrementCounter(i)}>-</button>
-              <button onClick={() => this.deleteCounter(i)}>x</button>
-            </li>
-          )) }
-        </ul>
 
-        <button onClick={this.newCounter}>New counter</button>
-      </>
+    return(
+      <div>
+
+      </div>
     );
   }
 }
