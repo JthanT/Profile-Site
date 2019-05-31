@@ -1,26 +1,30 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const UserSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     firstname:{
       type: String,
       default: ''
     },
-    lastname:{
+    lastname: {
       type: String,
       default: ''
     },
-    email:{
+    email: {
         type: String,
         default: ''
     },
-    username:{
+    username: {
         type: String,
         default: ''
     },
-    password:{
+    password: {
         type: String,
         default: ''
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false
     }
 });
 

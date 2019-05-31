@@ -43,9 +43,7 @@ module.exports = (app) => {
     email = email.toLowerCase();
     email = email.trim();
 
-    User.find({
-      email: email
-    }, (err, users) => {
+    User.find({ email: email }, (err, users) => {
       if(err) {
         return res.send({
           success: false,
@@ -73,12 +71,12 @@ module.exports = (app) => {
         if(err) {
           return res.send({
             success: false,
-            message: 'Error: Server error'
+            message: 'Error: Server error.'
           });
         }
         return res.send({
           success: true,
-          message: 'Signed up'
+          message: 'Signed up.'
         });
       });
     });
@@ -104,19 +102,18 @@ module.exports = (app) => {
     email = email.toLowerCase();
     email = email.trim();
 
-    User.find({
-      email: email
-    }, (err, users) => {
+    User.find({ email: email }, (err, users) => {
       if(err) {
         return res.send({
           success: false,
           message: 'Error: Server error.'
         });
       }
+
       if(users.length != 1) {
         return res.send({
           success: false,
-          message: 'Error: Invalid1.'
+          message: 'Error: Invalid.'
         });
       }
 
@@ -124,7 +121,7 @@ module.exports = (app) => {
       if(!user.validPassword(password)) {
         return res.send({
           success: false,
-          message: 'Error: Invalid2.'
+          message: 'Error: Invalid.'
         });
       }
 
@@ -143,6 +140,53 @@ module.exports = (app) => {
           message: 'Valid sign in',
           token: doc._id
         });
+      });
+    });
+  });
+
+  app.get('/api/account/verify', (req, res) => {
+    const query = req;
+    const token = query;
+
+    UserSession.findById({ _id: token, isDeleted: false }, (err, sessions) => {
+      if(err) {
+        console.log(err);
+        return res.send({
+          success: false,
+          message: 'Error: Server error ver 123.'
+        });
+      }
+
+      if(!sessions) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid.'
+        });
+      } else {
+        return res.send({
+          success: true,
+          message: 'Error: Token is good.'
+        });
+      }
+    });
+  });
+
+  app.get('/api/account/logout', (req, res) => {
+    const query = req;
+    const token = query;
+
+    UserSession.findOneAndUpdate({ _id: token, isDeleted: false }, { $set: {isDeleted: true} },
+      null, (err, sessions) => {
+      if(err) {
+        return res.send({
+          success: false,
+          message: 'Error: Server error.'
+        });
+      }
+
+      return res.send({
+        success: true,
+        message: 'Error: Good.'
       });
     });
   });
