@@ -126,7 +126,8 @@ module.exports = (app) => {
       }
 
       const userSession = new UserSession();
-      userSession.userID = user._id;
+      userSession.userId = user._id;
+      // console.log(userSession.userId);
       userSession.save((err, doc) => {
         if(err) {
           return res.send({
@@ -144,39 +145,12 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/account/verify', (req, res) => {
-    const query = req;
-    const token = query;
-
-    UserSession.findById({ _id: token, isDeleted: false }, (err, sessions) => {
-      if(err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server error ver 123.'
-        });
-      }
-
-      if(!sessions) {
-        return res.send({
-          success: false,
-          message: 'Error: Invalid.'
-        });
-      } else {
-        return res.send({
-          success: true,
-          message: 'Error: Token is good.'
-        });
-      }
-    });
-  });
-
   app.get('/api/account/logout', (req, res) => {
-    const query = req;
-    const token = query;
+    const query = req.query;
+    const token = query.token;
 
-    UserSession.findOneAndUpdate({ _id: token, isDeleted: false }, { $set: {isDeleted: true} },
-      null, (err, sessions) => {
+    UserSession.findOneAndUpdate({ _id: token, isDeleted: false }, { $set: {isDeleted: true} }, null,
+      (err, sessions) => {
       if(err) {
         return res.send({
           success: false,
@@ -184,9 +158,10 @@ module.exports = (app) => {
         });
       }
 
+      // console.log(token);
       return res.send({
         success: true,
-        message: 'Error: Good.'
+        message: 'Good.'
       });
     });
   });
