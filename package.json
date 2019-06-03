@@ -1,13 +1,8 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "profile-site",
   "version": "1.0.0",
   "description": "A web application using the MERN stack that features a login system.",
-  "author": "Eugene Cheung",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arkon/MERN-boilerplate.git"
-  },
-  "license": "MIT",
+  "author": "Johnathan Tam",
   "private": true,
   "scripts": {
     "start": "webpack -p --progress --profile --colors && node server",
