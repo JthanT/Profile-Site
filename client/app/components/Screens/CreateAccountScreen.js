@@ -5,9 +5,26 @@ import RaisedButton from 'material-ui/RaisedButton';
 import 'whatwg-fetch';
 
 class CreateAccountScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      token: '',
+      signUpError: '',
+      signUpFirstname: '',
+      signUpLastname: '',
+      signUpEmail: '',
+      signUpUsername: '',
+      signUpPassword: '',
+    };
+  }
+
   signUpEvent() {
     const {
+      signUpFirstname,
+      signUpLastname,
       signUpEmail,
+      signUpUsername,
       signUpPassword,
     } = this.state;
 
@@ -17,24 +34,31 @@ class CreateAccountScreen extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        firstname: signUpFirstname,
+        lastname: signUpLastname,
         email: signUpEmail,
+        username: signUpUsername,
         password: signUpPassword,
       }),
     }).then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        if (json.success) {
-          this.setState({
-            signUpError: json.message,
-            signUpEmail: '',
-            signUpPassword: '',
-          });
-        } else {
-          this.setState({
-            signUpError: json.message,
-          });
-        }
-      });
+      // .then(json => {
+      //   console.log('json', json);
+      //   if (json.success) {
+      //     this.setState({
+      //       signUpError: json.message,
+      //       signUpFirstname: '',
+      //       signUpLastname: '',
+      //       signUpEmail: '',
+      //       signUpUsername: '',
+      //       signUpPassword: '',
+      //     });
+      //   } else {
+      //     this.setState({
+      //       signUpError: json.message,
+      //     });
+      //   }
+      
+
   }
 
   render() {
@@ -45,31 +69,31 @@ class CreateAccountScreen extends Component {
             <TextField
               hintText="Enter your First Name"
               floatingLabelText="First Name"
-              onChange = { (event,newValue) => this.setState({ firstName:newValue }) }
+              onChange = { (event, newValue) => this.setState({ signUpFirstname: newValue }) }
             />
             <br/>
             <TextField
               hintText="Enter your Last Name"
               floatingLabelText="Last Name"
-              onChange = { (event,newValue) => this.setState({ lastName:newValue }) }
+              onChange = { (event, newValue) => this.setState({ signUpLastname: newValue }) }
             />
             <br/>
             <TextField
               hintText="Enter your Email"
               floatingLabelText="Email"
-              onChange = { (event,newValue) => this.setState({ email:newValue }) }
+              onChange = { (event, newValue) => this.setState({ signUpEmail: newValue }) }
             />
             <br/>
             <TextField
               hintText="Enter your Username"
               floatingLabelText="Username"
-              onChange = { (event,newValue) => this.setState({ username:newValue }) }
+              onChange = { (event, newValue) => this.setState({ signUpUsername: newValue }) }
             />
             <br/>
             <TextField
               hintText="Enter your Password"
               floatingLabelText="Password"
-              onChange = { (event,newValue) => this.setState({ password:newValue }) }
+              onChange = { (event, newValue) => this.setState({ signUpPassword: newValue }) }
             />
             <br/>
             <RaisedButton label="Submit" primary={ true } onClick={ (event) => this.signUpEvent(event) }/>
