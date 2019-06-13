@@ -41,24 +41,6 @@ class CreateAccountScreen extends Component {
         password: signUpPassword,
       }),
     }).then(res => res.json())
-      // .then(json => {
-      //   console.log('json', json);
-      //   if (json.success) {
-      //     this.setState({
-      //       signUpError: json.message,
-      //       signUpFirstname: '',
-      //       signUpLastname: '',
-      //       signUpEmail: '',
-      //       signUpUsername: '',
-      //       signUpPassword: '',
-      //     });
-      //   } else {
-      //     this.setState({
-      //       signUpError: json.message,
-      //     });
-      //   }
-
-
   }
 
   render() {

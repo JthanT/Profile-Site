@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { Link } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -31,24 +32,6 @@ class LoginScreen extends Component {
         password: signInPassword,
       }),
     }).then(res => res.json())
-      // .then(json => {
-      //   console.log('json', json);
-      //   if (json.success) {
-      //     this.setState({
-      //       signUpError: json.message,
-      //       signUpFirstname: '',
-      //       signUpLastname: '',
-      //       signUpEmail: '',
-      //       signUpUsername: '',
-      //       signUpPassword: '',
-      //     });
-      //   } else {
-      //     this.setState({
-      //       signUpError: json.message,
-      //     });
-      //   }
-
-
   }
 
   render() {
@@ -69,6 +52,8 @@ class LoginScreen extends Component {
             />
             <br/>
             <RaisedButton label="Login" primary={ true } onClick={ (event) => this.signInEvent(event) }/>
+            <br/>
+            <Link to="/CreateAccountScreen">Sign Up</Link>
           </div>
         </MuiThemeProvider>
       </div>
