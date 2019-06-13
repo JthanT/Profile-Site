@@ -57,7 +57,7 @@ class CreateAccountScreen extends Component {
       //       signUpError: json.message,
       //     });
       //   }
-      
+
 
   }
 

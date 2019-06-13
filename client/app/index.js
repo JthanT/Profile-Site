@@ -11,7 +11,7 @@ import {
 import App from './components/App/App';
 import NotFound from './components/App/NotFound';
 
-import CreateAccountScreen from './components/Screens/CreateAccountScreen';
+import LoginScreen from './components/Screens/LoginScreen';
 
 import './styles/styles.scss';
 
@@ -19,7 +19,7 @@ render((
   <Router>
     <App>
       <Switch>
-        <Route exact path="/" component={CreateAccountScreen}/>
+        <Route exact path="/" component={LoginScreen}/>
         <Route component={NotFound}/>
       </Switch>
     </App>
