@@ -41,6 +41,8 @@ class CreateAccountScreen extends Component {
         password: signUpPassword,
       }),
     }).then(res => res.json())
+
+    this.props.history.push('/');
   }
 
   render() {

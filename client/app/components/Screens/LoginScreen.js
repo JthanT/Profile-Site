@@ -32,6 +32,8 @@ class LoginScreen extends Component {
         password: signInPassword,
       }),
     }).then(res => res.json())
+
+    this.props.history.push('/UserSignedInScreen');
   }
 
   render() {
