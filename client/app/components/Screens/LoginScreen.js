@@ -3,16 +3,17 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Link } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { setInStorage } from '../../utils/storage';
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      token: '',
       signInError: '',
       signInEmail: '',
       signInPassword: '',
+      token: '',
     };
   }
 
@@ -32,6 +33,18 @@ class LoginScreen extends Component {
         password: signInPassword,
       }),
     }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if(json.success) {
+          setInStorage('profile_site', { token: json.token });
+          this.setState({
+            signInError: json.message,
+            signInEmail: '',
+            signInPassword: '',
+            token: json.token,
+          });
+        }
+      });
 
     this.props.history.push('/UserSignedInScreen');
   }

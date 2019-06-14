@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
-import { getFromStorage, setInStorage } from '../../utils/storage';
+import { getFromStorage } from '../../utils/storage';
 
 class UserSignedInScreen extends Component {
   constructor(props) {
@@ -18,12 +18,13 @@ class UserSignedInScreen extends Component {
     const obj = getFromStorage('profile_site');
 
     if(obj && obj.token) {
-      const token = obj;
+      const token = obj.token;
       fetch('/api/account/logout?token=' + token)
         .then(res => res.json())
 
       this.props.history.push('/');
     }
+
   }
 
   render() {
