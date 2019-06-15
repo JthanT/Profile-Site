@@ -14,8 +14,6 @@ import LoginScreen from './components/Screens/LoginScreen';
 import CreateAccountScreen from './components/Screens/CreateAccountScreen';
 import UserSignedInScreen from './components/Screens/UserSignedInScreen';
 
-import './styles/styles.scss';
-
 render((
   <Router>
     <App>
