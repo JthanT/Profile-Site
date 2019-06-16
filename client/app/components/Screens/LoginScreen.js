@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+
+
 import { setInStorage } from '../../utils/storage';
 
 class LoginScreen extends Component {
@@ -43,10 +45,11 @@ class LoginScreen extends Component {
             signInPassword: '',
             token: json.token,
           });
+          this.props.history.push('/UserSignedInScreen');
+        } else {
+          alert(json.message);
         }
       });
-
-    this.props.history.push('/UserSignedInScreen');
   }
 
   render() {
@@ -55,18 +58,16 @@ class LoginScreen extends Component {
         <MuiThemeProvider>
           <div>
             <TextField
-              hintText="Enter your Email"
-              floatingLabelText="Email"
-              onChange = { (event, newValue) => this.setState({ signInEmail: newValue }) }
+              placeholder="Email"
+              onChange = { (event) => this.setState({ signInEmail: event.target.value }) }
             />
             <br/>
             <TextField
-              hintText="Enter your Password"
-              floatingLabelText="Password"
-              onChange = { (event, newValue) => this.setState({ signInPassword: newValue }) }
+              placeholder="Password"
+              onChange = { (event) => this.setState({ signInPassword: event.target.value }) }
             />
             <br/>
-            <RaisedButton label="Login" primary={ true } onClick={ (event) => this.signInEvent(event) }/>
+            <Button onClick={ (event) => this.signInEvent(event) }>Login</Button>
             <br/>
             <Link to="/CreateAccountScreen">Sign Up</Link>
           </div>

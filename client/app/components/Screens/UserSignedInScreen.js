@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
 import { getFromStorage } from '../../utils/storage';
 
 class UserSignedInScreen extends Component {
@@ -21,19 +21,22 @@ class UserSignedInScreen extends Component {
       const token = obj.token;
       fetch('/api/account/logout?token=' + token)
         .then(res => res.json())
-
-      this.props.history.push('/');
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token: '',
+            });
+            this.props.history.push('/');
+          }
+        });
     }
-
   }
 
   render() {
     return (
       <div className="signedin_screen">
         <MuiThemeProvider>
-          <div>
-            <RaisedButton label="Logout" primary={ true } onClick={ (event) => this.logoutEvent(event) }/>
-          </div>
+          <Button onClick={ (event) => this.logoutEvent(event) }>Logout</Button>
         </MuiThemeProvider>
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import 'whatwg-fetch';
 
 class CreateAccountScreen extends Component {
@@ -41,8 +41,27 @@ class CreateAccountScreen extends Component {
         password: signUpPassword,
       }),
     }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          this.setState({
+            signUpError: json.message,
+            signUpFirstname: '',
+            signUpLastname: '',
+            signUpEmail: '',
+            signUpUsername: '',
+            signUpPassword: '',
+          });
+          this.props.history.push('/');
+        } else {
+          this.setState({
+            signUpError: json.message,
+          });
+          
+          alert(json.message);
+        }
+      });
 
-    this.props.history.push('/');
   }
 
   render() {
@@ -51,36 +70,31 @@ class CreateAccountScreen extends Component {
         <MuiThemeProvider>
           <div>
             <TextField
-              hintText="Enter your First Name"
-              floatingLabelText="First Name"
-              onChange = { (event, newValue) => this.setState({ signUpFirstname: newValue }) }
+              placeholder="First Name"
+              onChange = { (event) => this.setState({ signUpFirstname: event.target.value }) }
             />
             <br/>
             <TextField
-              hintText="Enter your Last Name"
-              floatingLabelText="Last Name"
-              onChange = { (event, newValue) => this.setState({ signUpLastname: newValue }) }
+              placeholder="Last Name"
+              onChange = { (event) => this.setState({ signUpLastname: event.target.value  }) }
             />
             <br/>
             <TextField
-              hintText="Enter your Email"
-              floatingLabelText="Email"
-              onChange = { (event, newValue) => this.setState({ signUpEmail: newValue }) }
+              placeholder="Email"
+              onChange = { (event) => this.setState({ signUpEmail: event.target.value  }) }
             />
             <br/>
             <TextField
-              hintText="Enter your Username"
-              floatingLabelText="Username"
-              onChange = { (event, newValue) => this.setState({ signUpUsername: newValue }) }
+              placeholder="Username"
+              onChange = { (event) => this.setState({ signUpUsername: event.target.value  }) }
             />
             <br/>
             <TextField
-              hintText="Enter your Password"
-              floatingLabelText="Password"
-              onChange = { (event, newValue) => this.setState({ signUpPassword: newValue }) }
+              placeholder="Password"
+              onChange = { (event) => this.setState({ signUpPassword: event.target.value  }) }
             />
             <br/>
-            <RaisedButton label="Submit" primary={ true } onClick={ (event) => this.signUpEvent(event) }/>
+            <Button onClick={ (event) => this.signUpEvent(event) }>Submit</Button>
           </div>
         </MuiThemeProvider>
       </div>
